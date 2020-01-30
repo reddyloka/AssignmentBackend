@@ -4,8 +4,10 @@ const userService = require('./user.service');
 
 // routes
 router.post('/authenticate', authenticate);
+router.post('/logoutTime', updateLogoutTime);
 router.post('/register', register);
 router.get('/', getAll);
+router.get('/audits/:id', getAllAudits);
 router.get('/current', getCurrent);
 router.get('/:id', getById);
 router.put('/:id', update);
@@ -19,6 +21,12 @@ function authenticate(req, res, next) {
         .catch(err => next(err));
 }
 
+function updateLogoutTime(req, res, next) {
+    userService.updateLogoutTime(req.body)
+        .then(user => user ? res.json(user) : res.status(400).json({ message: 'Username or password is incorrect' }))
+        .catch(err => next(err));
+}
+
 function register(req, res, next) {
     userService.create(req.body)
         .then(() => res.json({}))
@@ -26,8 +34,16 @@ function register(req, res, next) {
 }
 
 function getAll(req, res, next) {
+    
     userService.getAll()
         .then(users => res.json(users))
+        .catch(err => next(err));
+}
+
+function getAllAudits(req, res, next) {
+    
+    userService.getAllAudits(req.params.id)
+        .then(users => users?res.json(users):res.sendStatus(401))
         .catch(err => next(err));
 }
 

@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+// const Logs=mongoose.model('Logs');
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
@@ -6,7 +7,9 @@ const schema = new Schema({
     hash: { type: String, required: true },
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    createdDate: { type: Date, default: Date.now }
+    role:{ type: String, required: true },
+    createdDate: { type: Date, default: Date.now },
+    activity :[{type:mongoose.Types.ObjectId,ref:"Logs"}]  
 });
 
 schema.set('toJSON', { virtuals: true });
