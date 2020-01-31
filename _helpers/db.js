@@ -1,6 +1,6 @@
 const config = require('config.js');
 const mongoose = require('mongoose');
-mongoose.connect('mongodb://anvesh:chat123@ds117846.mlab.com:17846/chat_reddy' || config.connectionString, { useCreateIndex: true, useNewUrlParser: true });
+mongoose.connect( process.env.MONGODB_URI || config.connectionString, { useCreateIndex: true, useNewUrlParser: true });
 
 mongoose.set('debug',true)
 mongoose.Promise = global.Promise;
